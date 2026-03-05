@@ -2,7 +2,7 @@
 
 **Everyday Essentials. Vetted. Simplified.**
 
-Little Upgrades is a curated Amazon-based storefront dedicated to the "hunting" of high-quality, useful products across all categories. Founded in February 2026 by a software engineer with an eye for tangible design, the platform bridges the gap between digital precision and physical goods.
+Little Upgrades is a curated Amazon-based storefront dedicated to the "hunting" of high-quality, useful products across all categories. Founded in February 2026 by three software engineers with an eye for tangible design, the platform bridges the gap between digital precision and physical goods.
 
 ![Project Status](https://img.shields.io/badge/Status-In_Selection-amber)
 ![Framework](https://img.shields.io/badge/Framework-Next.js_16-black)
