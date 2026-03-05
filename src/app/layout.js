@@ -1,8 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import SmoothScroll from "@/components/SmoothScroll";
-import Navbar from "@/components/Navbar";
-import CustomCursor from "@/components/CustomCursor";
+import ClientWrapper from "@/components/ClientWrapper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,7 +14,8 @@ const geistMono = Geist_Mono({
 
 export const metadata = {
   title: "Little Upgrades | Everyday Essentials",
-  description: "High-quality, useful products vetted for your daily routine. Simplified upgrades for modern living.",
+  description:
+    "High-quality, useful products vetted for your daily routine. Simplified upgrades for modern living.",
   openGraph: {
     title: "Little Upgrades",
     description: "Curated essentials for your home and tech setup.",
@@ -30,13 +29,8 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-offWhite selection:bg-amber selection:text-charcoal overflow-x-hidden antialiased`}
       >
-       <CustomCursor />
-        <SmoothScroll>
-          <Navbar/>
-          {children}
-        </SmoothScroll>
+        <ClientWrapper>{children}</ClientWrapper>
       </body>
     </html>
   );
 }
-

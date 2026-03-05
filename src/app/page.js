@@ -1,62 +1,76 @@
 "use client"; // This is mandatory in Next.js for interactive components
 
-import React, { useState, useEffect, useRef } from 'react';
-import { 
-  motion, 
+import React, { useState, useEffect, useRef } from "react";
+import {
+  motion,
   AnimatePresence,
   useScroll,
-  useMotionValueEvent
-} from 'framer-motion';
-import { 
-  ArrowRight, 
-  ExternalLink, 
-  ShoppingBag, 
-  Search, 
+  useMotionValueEvent,
+} from "framer-motion";
+import {
+  ArrowRight,
+  ExternalLink,
+  ShoppingBag,
+  Search,
   X,
   Plus,
   Loader2,
   Mail,
   Instagram,
-  Package
-} from 'lucide-react';
-import Image from 'next/image';
+  Package,
+} from "lucide-react";
+import Image from "next/image";
 
 // --- Components ---
-import CustomCursor from '@/components/CustomCursor';
-import Navbar from '@/components/Navbar';
+import CustomCursor from "@/components/CustomCursor";
+import Navbar from "@/components/Navbar";
 
 // --- Pages ---
-import HomePage from '@/pages/HomePage';
-import ShopPage from '@/app/shop/page';
-
-
+import HomePage from "@/pages/HomePage";
+import ShopPage from "@/app/shop/page";
 
 const AboutPage = () => (
   <main className="pt-32 bg-offWhite min-h-screen">
     <div className="max-w-6xl mx-auto px-8 py-20">
       <div className="grid md:grid-cols-2 gap-20 items-center">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-          <span className="text-amber uppercase tracking-widest text-sm font-bold mb-6 block">Our Story</span>
-          <h1 className="text-6xl font-serif leading-tight mb-8 text-charcoal italic">From Software to Physical Goods.</h1>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <span className="text-amber uppercase tracking-widest text-sm font-bold mb-6 block">
+            Our Story
+          </span>
+          <h1 className="text-6xl font-serif leading-tight mb-8 text-charcoal italic">
+            From Software to Physical Goods.
+          </h1>
           <p className="text-stone text-lg mb-6 leading-relaxed">
-            Little Upgrades is a small, family-run business founded in February 2026. After years spent in software engineering, we decided to pivot towards something more tangible.
+            Little Upgrades is a small, family-run business founded in February
+            2026. After years spent in software engineering, we decided to pivot
+            towards something more tangible.
           </p>
           <p className="text-stone text-lg mb-10 leading-relaxed">
-            We don't have a "niche" because we don't think good design should be limited to one. We spend our time hunting for interesting products, testing them out, and if they meet our standards, we list them on our Amazon store. It's as simple as that.
+            We don't have a "niche" because we don't think good design should be
+            limited to one. We spend our time hunting for interesting products,
+            testing them out, and if they meet our standards, we list them on
+            our Amazon store. It's as simple as that.
           </p>
           <div className="flex items-center gap-4 py-8 border-t border-stone-200">
-             <div className="w-12 h-12 rounded-full bg-amber flex items-center justify-center font-serif italic text-xl">L</div>
-             <div>
-               <p className="text-charcoal font-bold text-sm">The Little Upgrades Team</p>
-               <p className="text-stone text-xs">UK Based Storefront</p>
-             </div>
+            <div className="w-12 h-12 rounded-full bg-amber flex items-center justify-center font-serif italic text-xl">
+              L
+            </div>
+            <div>
+              <p className="text-charcoal font-bold text-sm">
+                The Little Upgrades Team
+              </p>
+              <p className="text-stone text-xs">UK Based Storefront</p>
+            </div>
           </div>
         </motion.div>
-        
+
         <div className="relative">
           <div className="aspect-[3/4] bg-stone-200 overflow-hidden shadow-2xl">
-            <Image 
-              width={800} 
+            <Image
+              width={800}
               height={1000}
               src="/images/workspace.avif"
               className="w-full h-full object-cover grayscale"
@@ -77,8 +91,9 @@ const ContactPage = () => {
 
   // Load EmailJS from CDN for the preview environment
   useEffect(() => {
-    const script = document.createElement('script');
-    script.src = "https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js";
+    const script = document.createElement("script");
+    script.src =
+      "https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js";
     script.async = true;
     document.body.appendChild(script);
     return () => {
@@ -88,11 +103,11 @@ const ContactPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  if (!window.emailjs) {
-    setError("Email service is still loading. Please try again in a second.");
-    return;
-  }
-  setIsSending(true);
+    if (!window.emailjs) {
+      setError("Email service is still loading. Please try again in a second.");
+      return;
+    }
+    setIsSending(true);
     setError(null);
 
     // Prepare variables to match your EmailJS template exactly
@@ -108,31 +123,35 @@ const ContactPage = () => {
       // For this preview, we access the global 'emailjs' object from the CDN
       if (window.emailjs) {
         await window.emailjs.send(
-          process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID, 
-          process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID, 
-          templateParams, 
-          process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+          process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
+          process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
+          templateParams,
+          process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY,
         );
         setSubmitted(true);
       } else {
         throw new Error("Email service not initialized");
       }
     } catch (err) {
-      console.error('EmailJS Error:', err);
+      console.error("EmailJS Error:", err);
       // Even if it fails in preview due to missing keys, we show success if you want to test the UI
       // To actually test sending, replace the YOUR_ strings above with real keys
-      setError("Something went wrong. Please ensure your EmailJS keys are correct or email us directly at hello@littleupgrades.co.uk");
+      setError(
+        "Something went wrong. Please ensure your EmailJS keys are correct or email us directly at hello@littleupgrades.co.uk",
+      );
     } finally {
       setIsSending(false);
     }
   };
-  
+
   return (
     <main className="pt-32 bg-charcoal min-h-screen text-offWhite">
       <div className="max-w-4xl mx-auto px-8 py-20">
         <div className="text-center mb-16">
           <h1 className="text-6xl font-serif italic mb-4">Get in Touch</h1>
-          <p className="text-stone tracking-widest uppercase text-xs">Wholesale Inquiries & Customer Support</p>
+          <p className="text-stone tracking-widest uppercase text-xs">
+            Wholesale Inquiries & Customer Support
+          </p>
         </div>
 
         <div className="bg-white/5 p-12 backdrop-blur-md rounded-sm border border-white/10">
@@ -143,39 +162,44 @@ const ContactPage = () => {
             </div>
           ) : (
             // <form className="space-y-8" onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }}>
-              <form ref={form} className="space-y-8" onSubmit={handleSubmit}>
-             <div className="grid md:grid-cols-2 gap-8">
+            <form ref={form} className="space-y-8" onSubmit={handleSubmit}>
+              <div className="grid md:grid-cols-2 gap-8">
                 <div className="space-y-2">
-                  <label className="text-[10px] uppercase tracking-widest text-stone block mb-2">Full Name</label>
-                  <input 
+                  <label className="text-[10px] uppercase tracking-widest text-stone block mb-2">
+                    Full Name
+                  </label>
+                  <input
                     name="user_name"
                     autoComplete="name"
-                    className="w-full bg-transparent border-b border-[#8B8589]/30 py-2 focus:border-[#8B8589] outline-none transition-colors" 
-                    type="text" 
+                    className="w-full bg-transparent border-b border-[#8B8589]/30 py-2 focus:border-[#8B8589] outline-none transition-colors"
+                    type="text"
                     placeholder="John Doe"
-                    required 
+                    required
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] uppercase tracking-widest text-stone block mb-2">Email Address</label>
-                  <input 
+                  <label className="text-[10px] uppercase tracking-widest text-stone block mb-2">
+                    Email Address
+                  </label>
+                  <input
                     name="user_email"
                     autoComplete="email"
-                    className="w-full bg-transparent border-b  border-[#8B8589]/30 py-2 focus:border-[#8B8589] outline-none transition-colors" 
-                    type="email" 
+                    className="w-full bg-transparent border-b  border-[#8B8589]/30 py-2 focus:border-[#8B8589] outline-none transition-colors"
+                    type="email"
                     placeholder="john@example.com"
-                    required 
+                    required
                   />
                 </div>
               </div>
               <div className="space-y-2">
-                <label className="text-[10px] uppercase tracking-widest text-stone block mb-2">Your Message</label>
-                <textarea 
+                <label className="text-[10px] uppercase tracking-widest text-stone block mb-2">
+                  Your Message
+                </label>
+                <textarea
                   name="message"
                   className="w-full bg-transparent border border-[#8B8589]/30 p-4 focus:border-[#8B8589] outline-none transition-colors h-40 resize-none rounded-sm"
-                   
-                  placeholder="How can we help?" 
-                  required 
+                  placeholder="How can we help?"
+                  required
                 />
               </div>
 
@@ -185,8 +209,8 @@ const ContactPage = () => {
                 </div>
               )}
 
-              <button 
-                type="submit" 
+              <button
+                type="submit"
                 disabled={isSending}
                 className="w-full bg-amber text-charcoal py-4 font-bold uppercase tracking-widest text-sm hover:bg-white transition-all interactive flex items-center justify-center gap-2 group disabled:opacity-70 disabled:cursor-not-allowed"
               >
@@ -198,7 +222,9 @@ const ContactPage = () => {
                 ) : (
                   <>
                     Send Message
-                    <span className="group-hover:translate-x-1 transition-transform">→</span>
+                    <span className="group-hover:translate-x-1 transition-transform">
+                      →
+                    </span>
                   </>
                 )}
               </button>
@@ -213,7 +239,7 @@ const ContactPage = () => {
 // --- Main App ---
 
 export default function App() {
-  const [activePage, setActivePage] = useState('home');
+  const [activePage, setActivePage] = useState("home");
   const [mounted, setMounted] = useState(false);
 
   // This useEffect only runs in the browser
@@ -222,7 +248,7 @@ export default function App() {
     window.scrollTo(0, 0);
   }, [activePage]);
 
-  // If we aren't mounted yet, return a shell or null 
+  // If we aren't mounted yet, return a shell or null
   // to prevent the server from trying to render the cursor/animations
   if (!mounted) {
     return <div className="bg-offWhite min-h-screen" />;
@@ -245,67 +271,12 @@ export default function App() {
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.3 }}
         >
-          {activePage === 'home' && <HomePage setActivePage={setActivePage} />}
+          {activePage === "home" && <HomePage setActivePage={setActivePage} />}
           {/* {activePage === 'shop' && <ShopPage setActivePage={setActivePage} />} */}
-          {activePage === 'about' && <AboutPage />}
-          {activePage === 'contact' && <ContactPage />}
+          {activePage === "about" && <AboutPage />}
+          {activePage === "contact" && <ContactPage />}
         </motion.div>
       </AnimatePresence>
-
-      <footer className="bg-charcoal text-stone py-20 px-8 border-t border-white/5">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-16">
-          <div className="col-span-1">
-            <h2 className="text-3xl font-serif text-offWhite mb-6 italic tracking-tighter">LITTLE UPGRADES</h2>
-            <p className="text-sm leading-relaxed max-w-xs">An Amazon-based shop hunting for the best everyday items across all categories. Simple, useful, and high-quality.</p>
-          </div>
-          <div>
-            <h4 className="text-offWhite uppercase tracking-widest text-[10px] mb-8">Navigation</h4>
-            <ul className="space-y-4 text-xs font-bold tracking-widest uppercase">
-              <li onClick={() => setActivePage('home')} className="hover:text-amber cursor-pointer interactive">Home</li>
-              <li onClick={() => setActivePage('shop')} className="hover:text-amber cursor-pointer interactive">The Shop</li>
-              <li onClick={() => setActivePage('about')} className="hover:text-amber cursor-pointer interactive">About</li>
-              <li onClick={() => setActivePage('contact')} className="hover:text-amber cursor-pointer interactive">Contact</li>
-            </ul>
-          </div>
-          {/* <div>
-            <h4 className="text-offWhite uppercase tracking-widest text-[10px] mb-8">Links</h4>
-            <ul className="space-y-4 text-xs font-bold tracking-widest uppercase">
-              <li className="hover:text-amber cursor-pointer flex items-center gap-2 italic tracking-normal capitalize font-serif text-lg"><Instagram size={16}/> Instagram</li>
-              <li className="hover:text-amber cursor-pointer flex items-center gap-2 italic tracking-normal capitalize font-serif text-lg"><Mail size={16}/> Newsletter</li>
-              <li className="hover:text-amber cursor-pointer flex items-center gap-2 italic tracking-normal capitalize font-serif text-lg"><ExternalLink size={16}/> Amazon Store</li>
-            </ul>
-          </div> */}
-          <div>
-  <h4 className="text-offWhite uppercase tracking-widest text-[10px] mb-8">Support</h4>
-  <ul className="space-y-4 text-xs font-bold tracking-widest uppercase">
-    {/* Direct Email Link */}
-    <li className="hover:text-amber cursor-pointer flex items-center gap-2 italic tracking-normal capitalize font-serif text-lg transition-colors">
-      <Mail size={16}/> 
-      <a href="mailto:info@littleupgrades.co.uk">Email Us</a>
-    </li>
-    
-    {/* Link to your Contact Section/Page */}
-    <li 
-      onClick={() => setActivePage('contact')} 
-      className="hover:text-amber cursor-pointer flex items-center gap-2 italic tracking-normal capitalize font-serif text-lg transition-colors"
-    >
-      <Search size={16}/> Help Center
-    </li>
-    
-    <li className="text-stone flex items-center gap-2 italic tracking-normal capitalize font-serif text-lg select-none">
-  <Package size={16}/> UK Based Storefront
-</li>
-  </ul>
-</div>
-        </div>
-        <div className="max-w-7xl mx-auto mt-20 pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] uppercase tracking-widest">
-          <span>© 2026 Little Upgrades Ltd. UK Registered.</span>
-        <div className="flex gap-8 text-stone/40 select-none">
-  <span onClick={() => setActivePage('contact')} className="cursor-pointer">Privacy Policy</span>
-  <span onClick={() => setActivePage('contact')} className="cursor-pointer">Terms of Service</span>
-</div>
-        </div>
-      </footer>
     </div>
   );
 }
