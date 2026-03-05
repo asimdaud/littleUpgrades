@@ -42,7 +42,7 @@ The site is currently deployed on **Vercel** and connected to a custom **Nameche
 
 1.  **Clone the repository:**
     ```bash
-    git clone [https://github.com/YOUR_USERNAME/little-upgrades.git](https://github.com/YOUR_USERNAME/little-upgrades.git)
+    git clone [https://github.com/asimdaud/little-upgrades.git](https://github.com/asimdaud/little-upgrades.git)
     ```
 
 2.  **Install dependencies:**

@@ -1,6 +1,4 @@
 "use client";
-
-// The new import path for the React wrapper
 import { ReactLenis } from 'lenis/react';
 
 export default function SmoothScroll({ children }) {

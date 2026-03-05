@@ -3,6 +3,26 @@
 
 @import "tailwindcss";
 
+@theme {
+  /* The "New" Amber: A refined, muted gold */
+  --color-amber: #D4AF37; 
+  
+  /* The "New" Charcoal: A soft, rich onyx */
+  --color-charcoal: #1A1A1A;
+  
+  /* The "New" Stone: A warm, architectural gray */
+  --color-stone: #8C8C8C;
+  
+  /* The "New" Off-White: The 'Apple' studio look */
+  --color-offWhite: #FCFCFA;
+  
+  /* The "New" Light Gray: For borders and subtle card bgs */
+  --color-surface: #F2F0ED;
+  
+  --color-white: #FFFFFF;
+  --color-transparent: transparent;
+}
+
 
 /* 2. Tailwind Directives SECOND */
 @tailwind base;
@@ -20,7 +40,7 @@ body {
 
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: #121212; }
-::-webkit-scrollbar-thumb { background: #FFBF00; }
+::-webkit-scrollbar-thumb { background: #D4AF37; }
 
 .vertical-text {
   writing-mode: vertical-rl;
