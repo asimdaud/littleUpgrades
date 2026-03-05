@@ -9,6 +9,7 @@ Little Upgrades is a curated Amazon-based storefront dedicated to the "hunting" 
 ![Animation](https://img.shields.io/badge/Motion-Framer_Motion-blue)
 
 ---
+![alt text](image.png)
 
 ## 🛠 The Tech Stack
 
