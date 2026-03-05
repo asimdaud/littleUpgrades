@@ -1,23 +1,8 @@
 "use client"; 
-import React, { useState, useEffect, useRef } from 'react';
-import { 
-  motion, 
-  AnimatePresence,
-  useScroll,
-  useMotionValueEvent
-} from 'framer-motion';
-import { 
-  ArrowRight, 
-  ExternalLink, 
-  ShoppingBag, 
-  Search, 
-  X,
-  Plus,
-  Loader2,
-  Mail,
-  Instagram,
-  Package
-} from 'lucide-react';
+import React from 'react';
+import { motion } from 'framer-motion';
+// 1. Import Link from next/link
+import Link from 'next/link';
 import Image from 'next/image';
 
 export default function HomePage() {
@@ -41,18 +26,19 @@ export default function HomePage() {
               We hunt for high-quality, useful products and bring them together in one place. Simple upgrades for your daily routine.
             </p>
             <div className="flex gap-4">
-               <button 
-                onClick={() => setActivePage('shop')}
-                className="px-8 py-4 bg-amber text-charcoal text-xs font-bold uppercase tracking-widest hover:bg-white transition-colors interactive"
+               {/* 2. Change buttons to Links */}
+               <Link 
+                href="/shop"
+                className="px-8 py-4 bg-amber text-charcoal text-xs font-bold uppercase tracking-widest hover:bg-white transition-colors interactive inline-block"
                >
                  View Collection
-               </button>
-               <button 
-                onClick={() => setActivePage('about')}
-                className="px-8 py-4 border border-stone/30 text-offWhite text-xs font-bold uppercase tracking-widest hover:bg-white/10 transition-colors interactive"
+               </Link>
+               <Link 
+                href="/about"
+                className="px-8 py-4 border border-stone/30 text-offWhite text-xs font-bold uppercase tracking-widest hover:bg-white/10 transition-colors interactive inline-block"
                >
                  Our Story
-               </button>
+               </Link>
             </div>
           </motion.div>
 
@@ -101,33 +87,36 @@ export default function HomePage() {
       <section className="py-32 px-8 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="group relative aspect-[4/5] bg-stone-100 overflow-hidden cursor-pointer interactive" onClick={() => setActivePage('shop')}>
+            {/* 3. Wrap Category Cards in Links */}
+            <Link href="/shop" className="group relative aspect-[4/5] bg-stone-100 overflow-hidden cursor-pointer interactive">
                <Image width={800} height={1000} alt="Tech & Tools" src="/images/tech-tools.avif" className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" />
                <div className="absolute inset-0 bg-stone/5 group-hover:bg-transparent transition-colors duration-500" />
                <div className="absolute bottom-8 left-8">
                   <h3 className="text-white text-3xl font-serif italic">Tech & Tools</h3>
                   <span className="text-white/70 text-[10px] uppercase tracking-widest">Coming Soon</span>
                </div>
-            </div>
-            <div className="group relative aspect-[4/5] bg-stone-100 overflow-hidden cursor-pointer interactive" onClick={() => setActivePage('shop')}>
+            </Link>
+
+            <Link href="/shop" className="group relative aspect-[4/5] bg-stone-100 overflow-hidden cursor-pointer interactive">
                 <Image width={800} height={1000} alt="Home Goods" src="/images/home-goods.avif" className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" />
                <div className="absolute inset-0 bg-stone/5 group-hover:bg-transparent transition-colors duration-500" />
                <div className="absolute bottom-8 left-8">
                   <h3 className="text-white text-3xl font-serif italic">Home Goods</h3>
                   <span className="text-white/70 text-[10px] uppercase tracking-widest">In Selection</span>
                </div>
-            </div>
-            <div className="group relative aspect-[4/5] bg-stone-100 overflow-hidden cursor-pointer interactive" onClick={() => setActivePage('shop')}>
+            </Link>
+
+            <Link href="/shop" className="group relative aspect-[4/5] bg-stone-100 overflow-hidden cursor-pointer interactive">
                 <Image width={800} height={1000} alt="Lifestyle" src="/images/lifestyle.avif" className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" />
                <div className="absolute inset-0 bg-stone/5 group-hover:bg-transparent transition-colors duration-500" />
                <div className="absolute bottom-8 left-8">
                   <h3 className="text-white text-3xl font-serif italic">Lifestyle</h3>
                   <span className="text-white/70 text-[10px] uppercase tracking-widest">Hunting</span>
                </div>
-            </div>
+            </Link>
           </div>
         </div>
       </section>
     </main>
   );
-};
+}
