@@ -1,0 +1,48 @@
+/* 1. Imports FIRST */
+/* @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:italic&family=Inter:wght@300;400;500;700&display=swap'); */
+
+@import "tailwindcss";
+
+
+/* 2. Tailwind Directives SECOND */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 3. Custom Styles THIRD */
+body { 
+  cursor: none; 
+  background-color: #feffff; 
+}
+
+.font-serif { font-family: 'Instrument Serif', serif; }
+.font-sans { font-family: 'Inter', sans-serif; }
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #121212; }
+::-webkit-scrollbar-thumb { background: #FFBF00; }
+
+.vertical-text {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+html.lenis {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
