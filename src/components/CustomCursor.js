@@ -1,35 +1,53 @@
 "use client";
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, useMotionValue, useSpring } from 'framer-motion';
 
 export default function CustomCursor() {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
+  
+  // 1. Position values (Instant, no lag)
+  const mouseX = useMotionValue(-100);
+  const mouseY = useMotionValue(-100);
+
+  // 2. Scale value (Still uses a spring for that "premium" pop)
+  const springScale = useSpring(1, { damping: 20, stiffness: 300 });
 
   useEffect(() => {
-    const moveCursor = (e) => setPosition({ x: e.clientX, y: e.clientY });
-    const handleMouseOver = (e) => {
-      if (e.target.closest('button, a, .interactive')) setIsHovering(true);
-      else setIsHovering(false);
+    // Optimization: Using a ref to track position to avoid unnecessary re-renders
+    const moveCursor = (e) => {
+      mouseX.set(e.clientX - 12);
+      mouseY.set(e.clientY - 12);
     };
-    window.addEventListener('mousemove', moveCursor);
-    window.addEventListener('mouseover', handleMouseOver);
+
+    const handleInteraction = (e) => {
+      // Logic to detect interactive elements across any component/page
+      const isInteractive = e.target.closest('button, a, .interactive, input, textarea');
+      setIsHovering(!!isInteractive);
+    };
+
+    window.addEventListener('mousemove', moveCursor, { passive: true });
+    window.addEventListener('mouseover', handleInteraction);
+
     return () => {
       window.removeEventListener('mousemove', moveCursor);
-      window.removeEventListener('mouseover', handleMouseOver);
+      window.removeEventListener('mouseover', handleInteraction);
     };
-  }, []);
+  }, [mouseX, mouseY]);
+
+  // Syncing the hovering state to the spring scale
+  useEffect(() => {
+    springScale.set(isHovering ? 2.5 : 1);
+  }, [isHovering, springScale]);
 
   return (
     <motion.div
       className="fixed top-0 left-0 w-6 h-6 rounded-full pointer-events-none z-[9999] mix-blend-difference hidden md:block"
-      animate={{
-        x: position.x - 12,
-        y: position.y - 12,
-        scale: isHovering ? 2.5 : 1,
+      style={{
+        x: mouseX,
+        y: mouseY,
+        scale: springScale,
         backgroundColor: '#D4AF37',
       }}
-      transition={{ type: 'spring', damping: 20, stiffness: 250, mass: 0.5 }}
-      />
+    />
   );
-};
+}
