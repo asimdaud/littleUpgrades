@@ -10,6 +10,7 @@ Little Upgrades is a curated Amazon-based storefront dedicated to the "hunting" 
 
 ---
 ![alt text](image.png)
+---
 
 ## 🛠 The Tech Stack
 
