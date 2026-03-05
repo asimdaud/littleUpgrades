@@ -32,7 +32,7 @@ export default function HomePage() {
             transition={{ duration: 1, ease: "easeOut" }}
             className="lg:col-span-7"
           >
-            <span className="text-amber uppercase tracking-[0.4em] text-[10px] font-bold mb-6 block">Launching Feb 2026</span>
+            <span className="text-amber uppercase tracking-[0.4em] text-[10px] font-bold mb-6 block">Launching March 2026</span>
             <h1 className="text-6xl md:text-8xl xl:text-9xl font-serif leading-[0.9] tracking-tighter text-offWhite uppercase mb-8">
               Everyday <br />
               <span className="text-amber italic">Essentials</span>

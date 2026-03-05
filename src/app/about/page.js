@@ -37,7 +37,7 @@ export default function About() {
             From Software to Physical Goods.
           </h1>
           <p className="text-stone text-lg mb-6 leading-relaxed">
-            Little Upgrades is a small, family-run business founded in February
+            Little Upgrades is a small, family-run business founded in March
             2026. After years spent in software engineering, we decided to pivot
             towards something more tangible.
           </p>
