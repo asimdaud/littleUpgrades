@@ -1,68 +1,75 @@
-/* 1. Imports FIRST */
-/* @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:italic&family=Inter:wght@300;400;500;700&display=swap'); */
-
+/* 1. Tailwind v4 Import - This handles base, components, and utilities automatically */
 @import "tailwindcss";
 
 @theme {
-  /* The "New" Amber: A refined, muted gold */
   --color-amber: #D4AF37; 
-  
-  /* The "New" Charcoal: A soft, rich onyx */
   --color-charcoal: #1A1A1A;
-  
-  /* The "New" Stone: A warm, architectural gray */
   --color-stone: #8C8C8C;
-  
-  /* The "New" Off-White: The 'Apple' studio look */
   --color-offWhite: #FCFCFA;
-  
-  /* The "New" Light Gray: For borders and subtle card bgs */
   --color-surface: #F2F0ED;
   
-  --color-white: #FFFFFF;
-  --color-transparent: transparent;
+/* Font Mapping */
+  --font-serif: "Instrument Serif", serif;
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular;
 }
 
+/* 3. Base Styles */
+@layer base {
+  body { 
+    @apply bg-offWhite text-charcoal antialiased;
+    /* Note: If you use 'cursor: none', ensure your custom cursor component is working, 
+       otherwise users won't be able to see where they are clicking! */
+    cursor: none; 
+  }
 
-/* 2. Tailwind Directives SECOND */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+  /* Scrollbar Customization */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: #121212; }
+  ::-webkit-scrollbar-thumb { background: #D4AF37; }
 
-/* 3. Custom Styles THIRD */
-body { 
-  cursor: none; 
-  background-color: #feffff; 
+  /* Smooth Selection */
+  ::selection {
+    background-color: #D4AF37;
+    color: #1A1A1A;
+  }
 }
 
-.font-serif { font-family: 'Instrument Serif', serif; }
-.font-sans { font-family: 'Inter', sans-serif; }
+/* 4. Component Classes */
+@layer components {
+  .glass {
+    @apply bg-white/40 backdrop-blur-xl border border-white/20;
+  }
+  
+  .shadow-premium {
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+  }
 
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: #121212; }
-::-webkit-scrollbar-thumb { background: #D4AF37; }
-
-.vertical-text {
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
+  .interactive {
+    @apply cursor-pointer transition-all duration-300 ease-out;
+  }
 }
 
-html.lenis {
-  height: auto;
-}
+/* 5. Utility Classes */
+@layer utilities {
+  .vertical-text {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    /* Use rotate if you want it to read from bottom to top */
+    transform: rotate(180deg); 
+  }
 
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-}
-
-.lenis.lenis-smooth [data-lenis-prevent] {
-  overscroll-behavior: contain;
-}
-
-.lenis.lenis-stopped {
-  overflow: hidden;
-}
-
-.lenis.lenis-scrolling iframe {
-  pointer-events: none;
+  /* Lenis Smooth Scroll Support */
+  html.lenis {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
 }
