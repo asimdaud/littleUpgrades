@@ -5,7 +5,11 @@
 Little Upgrades is a curated Amazon-based storefront dedicated to the "hunting" of high-quality, useful products across all categories. Founded in March 2026 by three software engineers with an eye for tangible design, the platform bridges the gap between digital precision and physical goods.
 
 ---
-![alt text](image.png)
+![HomePage](image-1.png)
+![HomePage#2](image-2.png)
+![ShopPage](image-3.png)
+![AboutPage](image-4.png)
+![ContactPage](image-5.png)
 ---
 
 ## **🛠 The Tech Stack**
