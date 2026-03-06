@@ -14,12 +14,36 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Little Upgrades | Everyday Essentials",
-  description: "High-quality, useful products vetted for your daily routine.",
-  openGraph: {
-    title: "Little Upgrades",
-    description: "Curated essentials for your home and tech setup.",
+  metadataBase: new URL('https://littleupgrades.co.uk'),
+  title: {
+    default: "Little Upgrades | Everyday Essentials",
+    template: "%s | Little Upgrades"
   },
+  description: "High-quality, useful products vetted for your daily routine. Simplified upgrades for modern living.",
+  keywords: ["curated essentials", "minimalist tech", "home upgrades", "vetted products"],
+  authors: [{ name: "Little Upgrades Team" }],
+  creator: "Little Upgrades",
+  
+  // OpenGraph (Facebook, LinkedIn, WhatsApp)
+  openGraph: {
+    type: "website",
+    locale: "en_GB",
+    url: "https://littleupgrades.co.uk",
+    title: "Little Upgrades | Everyday Essentials",
+    description: "High-quality, useful products vetted for your daily routine.",
+    siteName: "Little Upgrades",
+    // NOTE: Images are now handled automatically by opengraph-image.png in src/app
+  },
+
+  // Twitter (X)
+  twitter: {
+    card: "summary_large_image",
+    title: "Little Upgrades | Everyday Essentials",
+    description: "Simplified upgrades for modern living. Curated and vetted.",
+    // NOTE: Images are now handled automatically by opengraph-image.png in src/app
+  },
+
+  // NOTE: Icons are now handled automatically by favicon.ico and apple-icon.png in src/app
 };
 
 export default function RootLayout({ children }) {
