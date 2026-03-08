@@ -71,4 +71,7 @@ Little Upgrades is a family-run business based in the UK.
 
 **Web:** [littleupgrades.co.uk](https://littleupgrades.co.uk)
 
+**Vercel:** [https://little-upgrades.vercel.app](https://little-upgrades.vercel.app)
+
+
 © 2026 Little Upgrades Ltd. All rights reserved.
