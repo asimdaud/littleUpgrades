@@ -29,17 +29,17 @@ export default function Contact() {
     setError("");
     setStatus("Sending your enquiry...");
 
-    const templateParams = {
-      from_name: form.current.user_name.value,
-      reply_to: form.current.user_email.value,
-      message: form.current.message.value,
-      date: new Date().toLocaleString(),
-    };
-
     try {
       const emailjs = await import("@emailjs/browser");
 
-      await emailjs.send(serviceId, templateId, templateParams, publicKey);
+      const elements = form.current.elements;
+      elements.from_name.value = elements.user_name.value;
+      elements.reply_to.value = elements.user_email.value;
+      elements.date.value = new Date().toLocaleString();
+
+      await emailjs.sendForm(serviceId, templateId, form.current, {
+        publicKey,
+      });
 
       form.current.reset();
       startTransition(() => {
@@ -160,6 +160,10 @@ export default function Contact() {
                   onSubmit={handleSubmit}
                   aria-busy={isSending}
                 >
+                  <input name="from_name" type="hidden" />
+                  <input name="reply_to" type="hidden" />
+                  <input name="date" type="hidden" />
+
                   <div>
                     <p className="section-label">Send an enquiry</p>
                     <h2 className="mt-3 font-serif text-4xl text-ink sm:text-5xl">
