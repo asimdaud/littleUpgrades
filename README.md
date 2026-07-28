@@ -1,77 +1,91 @@
-# **🏺 Little Upgrades**
+# Little Upgrades
 
-**Everyday Essentials. Vetted. Simplified.**
+Curated upgrades for daily life.
 
-Little Upgrades is a curated Amazon-based storefront dedicated to the "hunting" of high-quality, useful products across all categories. Founded in March 2026 by three software engineers with an eye for tangible design, the platform bridges the gap between digital precision and physical goods.
+Little Upgrades is a premium storefront landing experience built with Next.js. The site is intentionally editorial and lightweight: it presents the brand, sourcing direction, category scope, and contact flow for a curated product business spanning kitchen, toys, pets, skincare, travel, workspace, and home life.
 
----
-![HomePage](image-1.png)
-![HomePage#2](image-2.png)
-![ShopPage](image-3.png)
-![AboutPage](image-4.png)
-![ContactPage](image-5.png)
----
+## Stack
 
-## **🛠 The Tech Stack**
+- Next.js 16 App Router
+- React 19
+- Tailwind CSS v4
+- Framer Motion
+- EmailJS for the contact form
+- Vercel for hosting and production deployment
 
-This project was built to be fast, minimalist, and visually tactile:
+## Current UI Direction
 
-* **Framework:** [Next.js 15](https://nextjs.org/) (App Router)  
-* **Fonts:** [Geist Sans & Mono](https://vercel.com/font) (Vercel) \+ [Instrument Serif](https://fonts.google.com/specimen/Instrument+Serif)  
-* **Styling:** [Tailwind CSS v4](https://tailwindcss.com/)  
-* **Animations:** [Framer Motion](https://www.framer.com/motion/)  
-* **Smooth Scroll:** [Lenis](https://lenis.darkroom.engineering/)  
-* **Icons:** [Lucide React](https://lucide.dev/)  
-* **Deployment:** [Vercel](https://vercel.com/)
+- Warm neutral palette with premium editorial typography
+- Responsive section-based layout across home, shop, about, and contact
+- Branded logo, favicon, and Apple icon
+- Production-safe image fallbacks for category and hero media
+- Subtle reveal motion and polished interaction states
 
-## **✨ Key Features**
+## Pages
 
-* **Custom Cursor Interface:** A custom-built, spring-physics cursor that reacts to interactive elements.  
-* **Momentum Scrolling:** Integrated Lenis smooth-scroll for a premium, high-end feel.  
-* **Geist Typography:** Utilizing Vercel's Geist typeface for a clean, developer-centric aesthetic.  
-* **Optimized Performance:** Uses next/image for automated AVIF conversion and lazy loading of product shots.  
-* **Responsive Layout:** A mobile-first approach designed for the modern shopper.  
-* **Theme-Driven UI:** A sophisticated palette using \#D4AF37 (Amber), \#8C8C8C (Stone), and \#1A1A1A (Charcoal).
+- `/` Home
+- `/shop` Shop direction / collection holding page
+- `/about` Brand positioning and sourcing approach
+- `/contact` EmailJS-backed enquiry form
 
-## **🚀 Deployment**
+## Local Development
 
-The site is currently deployed on **Vercel** and connected to a custom **Namecheap** domain.
+1. Install dependencies:
 
-### **Local Development**
+```bash
+npm install
+```
 
-1. **Clone the repository:**  
-   git clone \[https://github.com/asimdaud/little-upgrades.git\](https://github.com/asimdaud/little-upgrades.git)
+2. Create `.env.local` with EmailJS keys:
 
-2. **Install dependencies:**  
-   npm install
+```bash
+NEXT_PUBLIC_EMAILJS_SERVICE_ID=your_service_id
+NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=your_template_id
+NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=your_public_key
+```
 
-3. **Set up Environment Variables:**  
-   Create a .env.local and add your EmailJS keys:  
-   NEXT\_PUBLIC\_EMAILJS\_SERVICE\_ID=your\_id  
-   NEXT\_PUBLIC\_EMAILJS\_TEMPLATE\_ID=your\_id  
-   NEXT\_PUBLIC\_EMAILJS\_PUBLIC\_KEY=your\_key
+3. Start the dev server:
 
-4. **Run the development server:**  
-   npm run dev
+```bash
+npm run dev
+```
 
-## **🗺 Roadmap**
+4. Build for production:
 
-* \[x\] Initial Next.js Migration  
-* \[x\] Integration of Lenis Smooth Scroll  
-* \[x\] SEO Optimization & Meta Tags  
-* \[ \] Product Expansion (Tech & Tools / Home Goods)  
-* \[ \] Direct Amazon Associate API Integration  
-* \[ \] Newsletter Launch
+```bash
+npm run build
+```
 
-## **✉️ Contact**
+5. Run the production server locally:
 
-Little Upgrades is a family-run business based in the UK.
+```bash
+npm run start
+```
 
-**Email:** [info@littleupgrades.co.uk](mailto:info@littleupgrades.co.uk)
+## Quality Checks
 
-**Web:** [littleupgrades.co.uk](https://littleupgrades.co.uk)
+```bash
+npm run lint
+npm run build
+```
 
-**Vercel:** [https://little-upgrades.vercel.app](https://little-upgrades.vercel.app)
+## Deployment
 
+This repository is pushed to GitHub and intended to deploy through Vercel from the production branch.
 
-© 2026 Little Upgrades Ltd. All rights reserved.
+Recommended Vercel settings:
+
+- Git provider connected to this repository
+- Production branch set to `main`
+- Domain attached to the same Vercel project that tracks this repo
+
+## Notes
+
+- The contact form falls back to `info@littleupgrades.co.uk` if EmailJS is not configured.
+- Premium source PNGs used during asset generation are not required for runtime; the site uses optimized `.webp` assets in `public/images/premium`.
+- There are local untracked scratch files in some developer environments; they are not part of the app itself.
+
+## Links
+
+- Live domain: [littleupgrades.co.uk](https://littleupgrades.co.uk)
+- Contact: [info@littleupgrades.co.uk](mailto:info@littleupgrades.co.uk)
