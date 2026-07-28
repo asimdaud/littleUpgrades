@@ -35,3 +35,10 @@ Thumbs.db
 # typescript
 *.tsbuildinfo
 # next-env.d.ts
+
+# local scratch/debug files
+SystemBlueprint.md
+.next-dev*.log
+
+# generated source images; optimized webp assets are committed
+/public/images/premium/*.png
