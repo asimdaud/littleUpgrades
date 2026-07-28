@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import BrandMark from "@/components/BrandMark";
 import { siteContent } from "@/lib/site-content";
 
 const navLinks = [
@@ -32,26 +33,16 @@ export default function Navbar() {
     <header
       className={`sticky top-0 z-50 border-b transition-all ${
         isScrolled || isOpen
-          ? "border-line bg-surface/92 backdrop-blur-xl"
+          ? "border-line bg-surface/92 shadow-[0_20px_48px_-36px_rgba(31,27,21,0.55)] backdrop-blur-xl"
           : "border-transparent bg-background/80 backdrop-blur-md"
       }`}
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-        <Link href="/" className="flex items-center gap-3" aria-label="Little Upgrades home">
-          <span className="flex h-10 w-10 items-center justify-center rounded-full border border-line bg-surface text-sm font-semibold text-accent">
-            LU
-          </span>
-          <span className="block">
-            <span className="block font-serif text-2xl leading-none text-ink">
-              Little Upgrades
-            </span>
-            <span className="mt-1 block text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-muted">
-              Curated daily goods
-            </span>
-          </span>
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
+        <Link href="/" aria-label="Little Upgrades home">
+          <BrandMark compact subtitle={siteContent.brand.tagline} />
         </Link>
 
-        <nav className="hidden items-center gap-2 md:flex" aria-label="Primary navigation">
+        <nav className="hidden items-center gap-2 rounded-full border border-line/70 bg-white/55 px-2 py-2 shadow-[0_18px_34px_-30px_rgba(31,27,21,0.5)] md:flex" aria-label="Primary navigation">
           {navLinks.map((link) => {
             const isActive = pathname === link.path;
 
@@ -61,8 +52,8 @@ export default function Navbar() {
                 href={link.path}
                 className={`rounded-full px-4 py-2 text-sm font-semibold ${
                   isActive
-                    ? "bg-surface-muted text-ink"
-                    : "text-muted hover:bg-white/60 hover:text-ink"
+                    ? "bg-surface text-ink shadow-[0_12px_24px_-18px_rgba(31,27,21,0.45)]"
+                    : "text-muted hover:bg-white/70 hover:text-ink"
                 }`}
                 aria-current={isActive ? "page" : undefined}
               >
@@ -112,7 +103,7 @@ export default function Navbar() {
       <div
         id="mobile-navigation"
         className={`overflow-hidden border-t border-line transition-[max-height,opacity] duration-200 md:hidden ${
-          isOpen ? "max-h-[30rem] opacity-100" : "max-h-0 opacity-0"
+          isOpen ? "max-h-[34rem] opacity-100" : "max-h-0 opacity-0"
         }`}
       >
         <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-5 sm:px-6">
@@ -124,10 +115,10 @@ export default function Navbar() {
                 <Link
                   key={link.path}
                   href={link.path}
-                  className={`rounded-[1.25rem] px-4 py-3 text-base font-semibold ${
+                  className={`rounded-[1.35rem] px-4 py-3 text-base font-semibold ${
                     isActive
-                      ? "bg-surface-muted text-ink"
-                      : "bg-white/50 text-muted hover:text-ink"
+                      ? "bg-surface text-ink shadow-[0_14px_24px_-20px_rgba(31,27,21,0.45)]"
+                      : "bg-white/55 text-muted hover:text-ink"
                   }`}
                   aria-current={isActive ? "page" : undefined}
                   onClick={() => setIsOpen(false)}

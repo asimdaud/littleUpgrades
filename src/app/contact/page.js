@@ -2,6 +2,8 @@
 
 import { startTransition, useRef, useState } from "react";
 import Link from "next/link";
+import PremiumImage from "@/components/PremiumImage";
+import Reveal from "@/components/Reveal";
 import { siteContent } from "@/lib/site-content";
 
 export default function Contact() {
@@ -55,125 +57,185 @@ export default function Contact() {
 
   return (
     <main className="page-shell">
-      <section className="section-pad mx-auto max-w-7xl pb-16 lg:pb-20">
-        <div className="grid gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-start">
-          <div>
-            <p className="section-label">Contact</p>
-            <h1 className="mt-3 font-serif text-5xl leading-[0.96] text-ink sm:text-6xl lg:text-7xl">
-              Built around better daily objects.
-            </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-muted">
-              Use the form for product suggestions, sourcing opportunities, early-access
-              interest, or general brand enquiries while the storefront is being built.
-            </p>
+      <section className="section-pad mx-auto max-w-7xl pb-12 lg:pb-16">
+        <div className="grid gap-6 lg:grid-cols-[0.94fr_1.06fr] lg:items-start">
+          <div className="grid gap-4">
+            <Reveal className="surface-panel px-6 py-7 sm:px-8">
+              <p className="section-label">Contact</p>
+              <h1 className="mt-3 max-w-3xl font-serif text-5xl leading-[0.94] text-ink sm:text-6xl lg:text-7xl">
+                Product leads, sourcing ideas, and early launch interest all go here.
+              </h1>
+              <p className="mt-5 max-w-2xl text-base leading-8 text-muted sm:text-lg">
+                Use the form for product suggestions, sourcing opportunities, early-access
+                interest, or general brand enquiries while the storefront is being built.
+              </p>
+            </Reveal>
 
-            <div className="mt-8 grid gap-4">
-              <div className="surface-card p-6">
-                <p className="section-label">Email</p>
-                <a
-                  className="mt-3 block font-serif text-3xl text-ink hover:text-accent"
-                  href={`mailto:${siteContent.email}`}
-                >
-                  {siteContent.email}
-                </a>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Reveal delay={0.06}>
+                <div className="surface-card p-6">
+                  <p className="section-label">Email</p>
+                  <a
+                    className="mt-3 block break-all font-serif text-[clamp(1.9rem,5vw,3rem)] leading-[1.02] text-ink hover:text-accent"
+                    href={`mailto:${siteContent.email}`}
+                  >
+                    {siteContent.email}
+                  </a>
+                </div>
+              </Reveal>
+
+              <Reveal delay={0.12}>
+                <div className="surface-card p-6">
+                  <p className="section-label">Location</p>
+                  <p className="mt-3 font-serif text-3xl text-ink">{siteContent.location}</p>
+                  <p className="mt-3 text-sm leading-7 text-muted">
+                    Operating from the UK with sourcing spread across practical daily-life
+                    categories.
+                  </p>
+                </div>
+              </Reveal>
+            </div>
+
+            <Reveal delay={0.18}>
+              <div className="surface-card overflow-hidden p-2">
+                <PremiumImage
+                  alt={siteContent.media.collection.alt}
+                  sources={siteContent.media.collection.sources}
+                  fill
+                  sizes="(min-width: 1024px) 38vw, 100vw"
+                  className="relative aspect-[5/4] rounded-[1.2rem]"
+                />
               </div>
+            </Reveal>
 
-              <div className="surface-card p-6">
-                <p className="section-label">Location</p>
-                <p className="mt-3 text-xl font-semibold text-ink">{siteContent.location}</p>
-              </div>
-
+            <Reveal delay={0.24}>
               <div className="surface-card p-6">
                 <p className="section-label">Common enquiries</p>
-                <ul className="mt-4 grid gap-3 text-sm leading-7 text-muted">
+                <div className="mt-4 flex flex-wrap gap-2">
                   {siteContent.inquiryTopics.map((topic) => (
-                    <li key={topic}>{topic}</li>
+                    <span key={topic} className="stat-chip">
+                      {topic}
+                    </span>
                   ))}
-                </ul>
+                </div>
+                <Link className="button-secondary mt-6 w-fit" href="/shop">
+                  Back to shop direction
+                </Link>
               </div>
-
-              <Link className="button-secondary w-fit" href="/shop">
-                Back to shop direction
-              </Link>
-            </div>
+            </Reveal>
           </div>
 
-          <div className="surface-panel p-6 sm:p-8 lg:p-10">
-            {submitted ? (
-              <div className="grid gap-4 py-6">
-                <p className="section-label">Enquiry sent</p>
-                <h2 className="font-serif text-4xl text-ink sm:text-5xl">
-                  Thanks. Your message is on its way.
-                </h2>
-                <p className="max-w-2xl text-base leading-8 text-muted">
-                  If anything interrupts delivery, you can always email {siteContent.email}
-                  directly.
-                </p>
-                <button
-                  type="button"
-                  className="button-primary w-fit"
-                  onClick={() => {
-                    setSubmitted(false);
-                    setStatus("");
-                    setError("");
-                  }}
+          <Reveal delay={0.12}>
+            <div className="surface-panel p-6 sm:p-8 lg:p-10">
+              {submitted ? (
+                <div className="grid gap-4 py-4">
+                  <p className="section-label">Enquiry sent</p>
+                  <h2 className="font-serif text-4xl text-ink sm:text-5xl">
+                    Thanks. Your message is on its way.
+                  </h2>
+                  <p className="max-w-2xl text-base leading-8 text-muted">
+                    If anything interrupts delivery, you can always email {siteContent.email}
+                    directly.
+                  </p>
+                  <div className="glass-panel px-4 py-4 text-sm leading-7 text-muted">
+                    The contact route stays intentionally simple while the collection is still
+                    being assembled.
+                  </div>
+                  <button
+                    type="button"
+                    className="button-primary w-fit"
+                    onClick={() => {
+                      setSubmitted(false);
+                      setStatus("");
+                      setError("");
+                    }}
+                  >
+                    Send another enquiry
+                  </button>
+                </div>
+              ) : (
+                <form
+                  ref={form}
+                  className="grid gap-6"
+                  onSubmit={handleSubmit}
+                  aria-busy={isSending}
                 >
-                  Send another enquiry
-                </button>
-              </div>
-            ) : (
-              <form ref={form} className="grid gap-6" onSubmit={handleSubmit}>
-                <div className="grid gap-6 sm:grid-cols-2">
-                  <label className="grid gap-2 text-sm font-semibold text-ink" htmlFor="user_name">
-                    Name
-                    <input
-                      id="user_name"
-                      name="user_name"
-                      type="text"
+                  <div>
+                    <p className="section-label">Send an enquiry</p>
+                    <h2 className="mt-3 font-serif text-4xl text-ink sm:text-5xl">
+                      Tell us what you are looking for.
+                    </h2>
+                  </div>
+
+                  <div className="grid gap-6 sm:grid-cols-2">
+                    <label className="grid gap-2 text-sm font-semibold text-ink" htmlFor="user_name">
+                      Name
+                      <input
+                        id="user_name"
+                        name="user_name"
+                        type="text"
+                        required
+                        disabled={isSending}
+                        className="field-input"
+                        placeholder="Your name"
+                      />
+                    </label>
+
+                    <label className="grid gap-2 text-sm font-semibold text-ink" htmlFor="user_email">
+                      Email
+                      <input
+                        id="user_email"
+                        name="user_email"
+                        type="email"
+                        required
+                        disabled={isSending}
+                        className="field-input"
+                        placeholder="you@example.com"
+                      />
+                    </label>
+                  </div>
+
+                  <label className="grid gap-2 text-sm font-semibold text-ink" htmlFor="message">
+                    Message
+                    <textarea
+                      id="message"
+                      name="message"
                       required
                       disabled={isSending}
                       className="field-input"
-                      placeholder="Your name"
+                      placeholder="Tell us what you want us to source, what category you are watching, or how you want to stay in touch."
                     />
                   </label>
 
-                  <label className="grid gap-2 text-sm font-semibold text-ink" htmlFor="user_email">
-                    Email
-                    <input
-                      id="user_email"
-                      name="user_email"
-                      type="email"
-                      required
+                  <div aria-live="polite" className="min-h-6 text-sm">
+                    {status ? (
+                      <p className="rounded-[1rem] border border-line bg-white/65 px-4 py-3 text-muted">
+                        {status}
+                      </p>
+                    ) : null}
+                    {error ? (
+                      <p className="mt-3 rounded-[1rem] border border-red-200 bg-red-50 px-4 py-3 text-red-700">
+                        {error}
+                      </p>
+                    ) : null}
+                  </div>
+
+                  <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                    <button
+                      type="submit"
                       disabled={isSending}
-                      className="field-input"
-                      placeholder="you@example.com"
-                    />
-                  </label>
-                </div>
-
-                <label className="grid gap-2 text-sm font-semibold text-ink" htmlFor="message">
-                  Message
-                  <textarea
-                    id="message"
-                    name="message"
-                    required
-                    disabled={isSending}
-                    className="field-input"
-                    placeholder="Tell us what you are looking for, what you want us to source, or how you want to stay in touch."
-                  />
-                </label>
-
-                <div aria-live="polite" className="min-h-6 text-sm">
-                  {status && <p className="text-muted">{status}</p>}
-                  {error && <p className="text-red-700">{error}</p>}
-                </div>
-
-                <button type="submit" disabled={isSending} className="button-primary w-full sm:w-fit">
-                  {isSending ? "Sending..." : "Send enquiry"}
-                </button>
-              </form>
-            )}
-          </div>
+                      className="button-primary w-full sm:w-fit"
+                    >
+                      {isSending ? "Sending..." : "Send enquiry"}
+                    </button>
+                    <p className="text-sm leading-7 text-muted">
+                      If the form is unavailable, email {siteContent.email} directly.
+                    </p>
+                  </div>
+                </form>
+              )}
+            </div>
+          </Reveal>
         </div>
       </section>
     </main>

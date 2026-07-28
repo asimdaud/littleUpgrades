@@ -1,18 +1,18 @@
 import "./globals.css";
-import { Cormorant_Garamond, Manrope } from "next/font/google";
+import { Fraunces, Instrument_Sans } from "next/font/google";
 import ClientWrapper from "@/components/ClientWrapper";
 
-const sans = Manrope({
-  variable: "--font-manrope",
+const sans = Instrument_Sans({
+  variable: "--font-instrument",
   subsets: ["latin"],
   display: "swap",
 });
 
-const serif = Cormorant_Garamond({
-  variable: "--font-cormorant",
+const serif = Fraunces({
+  variable: "--font-fraunces",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
   display: "swap",
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata = {
@@ -53,6 +53,13 @@ export const metadata = {
   robots: {
     index: true,
     follow: true,
+  },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
+    apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
   },
 };
 
