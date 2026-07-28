@@ -1,140 +1,158 @@
 "use client";
-import React, { useState } from "react";
-import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
+import { siteContent } from "@/lib/site-content";
+
+const navLinks = [
+  { name: "Home", path: "/" },
+  { name: "Shop", path: "/shop" },
+  { name: "About", path: "/about" },
+  { name: "Contact", path: "/contact" },
+];
 
 export default function Navbar() {
-  const { scrollY } = useScroll();
-  const [hidden, setHidden] = useState(false);
-  const [isTop, setIsTop] = useState(true);
+  const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    const previous = scrollY.getPrevious() || 0;
-    if (latest > previous && latest > 150) {
-      setHidden(true);
-      setIsOpen(false); // Auto-close menu on scroll
-    } else {
-      setHidden(false);
-    }
-    setIsTop(latest < 20);
-  });
+  useEffect(() => {
+    const updateScrollState = () => {
+      setIsScrolled(window.scrollY > 12);
+    };
 
-  const navLinks = [
-    { name: "Home", path: "/" },
-    { name: "Shop", path: "/shop" },
-    { name: "About", path: "/about" },
-    { name: "Contact", path: "/contact" },
-  ];
+    updateScrollState();
+    window.addEventListener("scroll", updateScrollState, { passive: true });
+
+    return () => window.removeEventListener("scroll", updateScrollState);
+  }, []);
 
   return (
-    <>
-      <motion.nav
-        variants={{ 
-          visible: { y: 0, opacity: 1 }, 
-          hidden: { y: -20, opacity: 0 } 
-        }}
-        animate={hidden ? "hidden" : "visible"}
-        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-        className="fixed top-0 w-full z-50 flex justify-center pt-4 md:pt-6 px-4 md:px-8 pointer-events-none"
-      >
-        <div className={`
-          flex items-center justify-between w-full max-w-7xl px-6 md:px-8 py-3 md:py-4 
-          rounded-full transition-all duration-500 pointer-events-auto
-          ${isTop && !isOpen
-            ? "bg-transparent" 
-            : "glass shadow-premium border border-stone/10"
-          }
-        `}>
-          
-          {/* Logo Section */}
-          <Link
-            href="/"
-            className="text-base md:text-lg font-serif tracking-tighter text-charcoal flex items-center gap-2"
-          >
-            <span className="w-2 h-2 bg-amber rounded-full" />
-            <span className="whitespace-nowrap uppercase italic font-bold">Little Upgrades</span>
-          </Link>
+    <header
+      className={`sticky top-0 z-50 border-b transition-all ${
+        isScrolled || isOpen
+          ? "border-line bg-surface/92 backdrop-blur-xl"
+          : "border-transparent bg-background/80 backdrop-blur-md"
+      }`}
+    >
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+        <Link href="/" className="flex items-center gap-3" aria-label="Little Upgrades home">
+          <span className="flex h-10 w-10 items-center justify-center rounded-full border border-line bg-surface text-sm font-semibold text-accent">
+            LU
+          </span>
+          <span className="block">
+            <span className="block font-serif text-2xl leading-none text-ink">
+              Little Upgrades
+            </span>
+            <span className="mt-1 block text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-muted">
+              Curated daily goods
+            </span>
+          </span>
+        </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex gap-10">
+        <nav className="hidden items-center gap-2 md:flex" aria-label="Primary navigation">
+          {navLinks.map((link) => {
+            const isActive = pathname === link.path;
+
+            return (
+              <Link
+                key={link.path}
+                href={link.path}
+                className={`rounded-full px-4 py-2 text-sm font-semibold ${
+                  isActive
+                    ? "bg-surface-muted text-ink"
+                    : "text-muted hover:bg-white/60 hover:text-ink"
+                }`}
+                aria-current={isActive ? "page" : undefined}
+              >
+                {link.name}
+              </Link>
+            );
+          })}
+        </nav>
+
+        <div className="hidden items-center gap-3 md:flex">
+          <a className="button-secondary" href={`mailto:${siteContent.email}`}>
+            Email us
+          </a>
+          <Link className="button-primary" href="/shop">
+            View shop
+          </Link>
+        </div>
+
+        <button
+          type="button"
+          className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-line bg-surface text-ink md:hidden"
+          aria-expanded={isOpen}
+          aria-controls="mobile-navigation"
+          aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
+          onClick={() => setIsOpen((open) => !open)}
+        >
+          <span className="relative block h-4 w-5">
+            <span
+              className={`absolute left-0 top-0 block h-0.5 w-5 rounded-full bg-current ${
+                isOpen ? "translate-y-[7px] rotate-45" : ""
+              }`}
+            />
+            <span
+              className={`absolute left-0 top-[7px] block h-0.5 w-5 rounded-full bg-current ${
+                isOpen ? "opacity-0" : ""
+              }`}
+            />
+            <span
+              className={`absolute left-0 top-[14px] block h-0.5 w-5 rounded-full bg-current ${
+                isOpen ? "-translate-y-[7px] -rotate-45" : ""
+              }`}
+            />
+          </span>
+        </button>
+      </div>
+
+      <div
+        id="mobile-navigation"
+        className={`overflow-hidden border-t border-line transition-[max-height,opacity] duration-200 md:hidden ${
+          isOpen ? "max-h-[30rem] opacity-100" : "max-h-0 opacity-0"
+        }`}
+      >
+        <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-5 sm:px-6">
+          <nav className="grid gap-2" aria-label="Mobile navigation">
             {navLinks.map((link) => {
               const isActive = pathname === link.path;
+
               return (
                 <Link
                   key={link.path}
                   href={link.path}
-                  className={`
-                    relative text-[10px] uppercase tracking-[0.2em] font-bold 
-                    transition-colors duration-500 py-1
-                    ${isActive ? "text-charcoal" : "text-stone hover:text-charcoal"}
-                  `}
+                  className={`rounded-[1.25rem] px-4 py-3 text-base font-semibold ${
+                    isActive
+                      ? "bg-surface-muted text-ink"
+                      : "bg-white/50 text-muted hover:text-ink"
+                  }`}
+                  aria-current={isActive ? "page" : undefined}
+                  onClick={() => setIsOpen(false)}
                 >
                   {link.name}
-                  <AnimatePresence>
-                    {isActive && (
-                      <motion.div
-                        layoutId="nav-underline"
-                        className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-amber"
-                        transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                      />
-                    )}
-                  </AnimatePresence>
                 </Link>
               );
             })}
+          </nav>
+
+          <div className="surface-card grid gap-3 p-4">
+            <p className="text-sm text-muted">
+              Broad sourcing across kitchen, toys, pets, skincare, travel, workspace, and more.
+            </p>
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <Link className="button-primary" href="/shop">
+                View shop
+              </Link>
+              <a className="button-secondary" href={`mailto:${siteContent.email}`}>
+                {siteContent.email}
+              </a>
+            </div>
           </div>
-
-          {/* Mobile Menu Toggle */}
-          <button 
-            className="md:hidden p-2 text-charcoal transition-transform active:scale-90"
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            {isOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
         </div>
-      </motion.nav>
-
-      {/* Mobile Drawer Overlay */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="fixed inset-0 z-40 bg-offWhite flex flex-col items-center justify-center md:hidden px-8"
-          >
-            <div className="flex flex-col gap-8 text-center">
-              {navLinks.map((link, i) => (
-                <motion.div
-                  key={link.path}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.1 }}
-                >
-                  <Link
-                    href={link.path}
-                    onClick={() => setIsOpen(false)}
-                    className={`text-4xl font-serif italic tracking-tighter ${
-                      pathname === link.path ? "text-amber" : "text-charcoal"
-                    }`}
-                  >
-                    {link.name}
-                  </Link>
-                </motion.div>
-              ))}
-            </div>
-            
-            {/* Minimal Mobile Footer Info */}
-            <div className="absolute bottom-12 text-[10px] uppercase tracking-[0.3em] text-stone">
-              Manchester, UK — v.1.0.4
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
+      </div>
+    </header>
   );
 }

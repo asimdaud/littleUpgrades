@@ -1,50 +1,55 @@
 import "./globals.css";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Cormorant_Garamond, Manrope } from "next/font/google";
 import ClientWrapper from "@/components/ClientWrapper";
 
-// Configure the fonts
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const sans = Manrope({
+  variable: "--font-manrope",
   subsets: ["latin"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const serif = Cormorant_Garamond({
+  variable: "--font-cormorant",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
 });
 
 export const metadata = {
-  // 1. CRITICAL: This fixes the 'localhost' issue in your tags
-  metadataBase: new URL('https://littleupgrades.co.uk'),
-
-  // 2. Standard SEO
+  metadataBase: new URL("https://littleupgrades.co.uk"),
   title: {
-    default: "Little Upgrades | Everyday Essentials",
-    template: "%s | Little Upgrades" // Allows sub-pages to have unique titles
+    default: "Little Upgrades | Curated upgrades for daily life",
+    template: "%s | Little Upgrades",
   },
-  description: "High-quality, useful products vetted for your daily routine. Simplified upgrades for modern living.",
-  keywords: ["curated essentials", "minimalist tech", "home upgrades", "vetted products"],
+  description:
+    "UK-based curated storefront sourcing useful products across kitchen, toys, pets, skincare, travel, workspace, and everyday home life.",
+  keywords: [
+    "curated products",
+    "home upgrades",
+    "kitchen tools",
+    "pet essentials",
+    "travel accessories",
+    "workspace accessories",
+    "skincare tools",
+    "UK storefront",
+  ],
   authors: [{ name: "Little Upgrades Team" }],
   creator: "Little Upgrades",
-
-  // 3. OpenGraph - Text only (Images are handled by the file in src/app)
   openGraph: {
-    title: "Little Upgrades | Everyday Essentials",
-    description: "High-quality, useful products vetted for your daily routine.",
+    title: "Little Upgrades | Curated upgrades for daily life",
+    description:
+      "Useful products for kitchen, toys, pets, skincare, travel, workspace, and everyday home life.",
     url: "https://littleupgrades.co.uk",
     siteName: "Little Upgrades",
     locale: "en_GB",
     type: "website",
   },
-
-  // 4. Twitter - Text only (Images are handled by the file in src/app)
   twitter: {
     card: "summary_large_image",
-    title: "Little Upgrades | Everyday Essentials",
-    description: "Simplified upgrades for modern living. Curated and vetted.",
+    title: "Little Upgrades | Curated upgrades for daily life",
+    description:
+      "A UK-based curated storefront focused on useful products across daily life.",
   },
-
-  // 5. Robot instructions for Google
   robots: {
     index: true,
     follow: true,
@@ -54,9 +59,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-offWhite antialiased overflow-x-hidden`}
-      >
+      <body className={`${sans.variable} ${serif.variable} min-h-screen bg-background text-ink antialiased`}>
         <ClientWrapper>{children}</ClientWrapper>
       </body>
     </html>

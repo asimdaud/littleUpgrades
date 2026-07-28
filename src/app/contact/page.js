@@ -1,31 +1,31 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Loader2, ArrowRight, Mail } from "lucide-react";
+import { startTransition, useRef, useState } from "react";
+import Link from "next/link";
+import { siteContent } from "@/lib/site-content";
 
 export default function Contact() {
-  const form = useRef();
+  const form = useRef(null);
   const [isSending, setIsSending] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
+  const [status, setStatus] = useState("");
 
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js";
-    script.async = true;
-    document.body.appendChild(script);
-    return () => { document.body.removeChild(script); };
-  }, []);
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!window.emailjs) {
-      setError("Email service is still loading.");
+    const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+    const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+    const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+
+    if (!serviceId || !templateId || !publicKey || !form.current) {
+      setError(`Email service is not configured yet. Please use ${siteContent.email}.`);
       return;
     }
+
     setIsSending(true);
-    setError(null);
+    setError("");
+    setStatus("Sending your enquiry...");
 
     const templateParams = {
       from_name: form.current.user_name.value,
@@ -35,153 +35,147 @@ export default function Contact() {
     };
 
     try {
-      await window.emailjs.send(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
-        templateParams,
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
-      );
-      setSubmitted(true);
-    } catch (err) {
-      console.error("EmailJS Error:", err);
-      setError("Service unavailable. Direct: hello[at]littleupgrades.co.uk");
+      const emailjs = await import("@emailjs/browser");
+
+      await emailjs.send(serviceId, templateId, templateParams, publicKey);
+
+      form.current.reset();
+      startTransition(() => {
+        setSubmitted(true);
+        setStatus("Your enquiry has been sent.");
+      });
+    } catch (submitError) {
+      console.error("EmailJS error:", submitError);
+      setError(`Service unavailable. Please email ${siteContent.email} directly.`);
+      setStatus("");
     } finally {
       setIsSending(false);
     }
   };
 
   return (
-    <main className="pt-40 bg-offWhite min-h-screen selection:bg-amber selection:text-charcoal">
-      <div className="max-w-7xl mx-auto px-8 pb-32">
-        <div className="grid lg:grid-cols-12 gap-16 items-start">
-          
-          {/* Left Column: Curator Details */}
-          <div className="lg:col-span-5">
-            <div className="flex items-center gap-3 mb-8">
-              <div className="w-10 h-[1px] bg-amber" />
-              <span className="text-amber uppercase tracking-[0.4em] text-[10px] font-bold">Inquiries</span>
-            </div>
-            
-            <h1 className="text-5xl md:text-7xl font-serif leading-tight mb-10 text-charcoal italic tracking-tight">
-              Let's refine <br />
-              <span className="text-stone/30 not-italic">the</span> routine.
+    <main className="page-shell">
+      <section className="section-pad mx-auto max-w-7xl pb-16 lg:pb-20">
+        <div className="grid gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-start">
+          <div>
+            <p className="section-label">Contact</p>
+            <h1 className="mt-3 font-serif text-5xl leading-[0.96] text-ink sm:text-6xl lg:text-7xl">
+              Built around better daily objects.
             </h1>
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-muted">
+              Use the form for product suggestions, sourcing opportunities, early-access
+              interest, or general brand enquiries while the storefront is being built.
+            </p>
 
-            <div className="space-y-12 mt-16">
-              {/* Protected Email - Copy to Clipboard */}
-              <div 
-                className="group interactive cursor-pointer"
-                onClick={() => {
-                  navigator.clipboard.writeText('hello@littleupgrades.co.uk');
-                }}
-              >
-                <p className="text-[10px] uppercase tracking-[0.3em] text-stone mb-2 flex items-center gap-2">
-                  Curator Direct 
-                  <span className="opacity-0 group-hover:opacity-100 transition-opacity text-amber text-[8px]">
-                    (Click to copy)
-                  </span>
-                </p>
-                <p className="text-xl text-charcoal font-serif italic group-hover:text-amber transition-colors duration-500">
-                  hello[at]littleupgrades.co.uk
-                </p>
+            <div className="mt-8 grid gap-4">
+              <div className="surface-card p-6">
+                <p className="section-label">Email</p>
+                <a
+                  className="mt-3 block font-serif text-3xl text-ink hover:text-accent"
+                  href={`mailto:${siteContent.email}`}
+                >
+                  {siteContent.email}
+                </a>
               </div>
 
-              {/* Location Info */}
-              <div className="group">
-                <p className="text-[10px] uppercase tracking-[0.3em] text-stone mb-2">Base of Operations</p>
-                <div className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 bg-amber rounded-full animate-pulse" />
-                  <p className="text-xl text-charcoal font-serif italic">Manchester, United Kingdom</p>
-                </div>
+              <div className="surface-card p-6">
+                <p className="section-label">Location</p>
+                <p className="mt-3 text-xl font-semibold text-ink">{siteContent.location}</p>
               </div>
 
-              <div className="pt-10 border-t border-stone/10 max-w-sm">
-                <p className="text-stone text-sm leading-relaxed font-light">
-                  We prioritize meaningful upgrades over mass-market volume. For wholesale 
-                  partnerships or product vetting requests, please utilize the secure 
-                  transmission form.
-                </p>
+              <div className="surface-card p-6">
+                <p className="section-label">Common enquiries</p>
+                <ul className="mt-4 grid gap-3 text-sm leading-7 text-muted">
+                  {siteContent.inquiryTopics.map((topic) => (
+                    <li key={topic}>{topic}</li>
+                  ))}
+                </ul>
               </div>
+
+              <Link className="button-secondary w-fit" href="/shop">
+                Back to shop direction
+              </Link>
             </div>
           </div>
 
-          {/* Right Column: The Glass Form */}
-          <div className="lg:col-span-7">
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="glass border border-stone/10 p-8 md:p-12 rounded-3xl shadow-premium relative overflow-hidden"
-            >
-              <AnimatePresence mode="wait">
-                {submitted ? (
-                  <motion.div 
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className="text-center py-20"
-                  >
-                    <div className="w-16 h-16 bg-amber/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                      <Mail className="text-amber" />
-                    </div>
-                    <h3 className="text-3xl font-serif italic text-charcoal mb-4">Message Received.</h3>
-                    <p className="text-stone text-sm tracking-wide">Our curators will reach out shortly.</p>
-                  </motion.div>
-                ) : (
-                  <form ref={form} onSubmit={handleSubmit} className="space-y-8">
-                    <div className="grid md:grid-cols-2 gap-8">
-                      <div className="space-y-2">
-                        <label className="text-[9px] uppercase tracking-[0.3em] text-stone font-bold">Full Name</label>
-                        <input
-                          name="user_name"
-                          className="w-full bg-transparent border-b border-stone/20 py-3 text-charcoal outline-none focus:border-amber transition-colors placeholder:text-stone/30"
-                          type="text"
-                          placeholder="Type your name..."
-                          required
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <label className="text-[9px] uppercase tracking-[0.3em] text-stone font-bold">Email</label>
-                        <input
-                          name="user_email"
-                          className="w-full bg-transparent border-b border-stone/20 py-3 text-charcoal outline-none focus:border-amber transition-colors placeholder:text-stone/30"
-                          type="email"
-                          placeholder="you@example.com"
-                          required
-                        />
-                      </div>
-                    </div>
-
-                    <div className="space-y-2">
-                      <label className="text-[9px] uppercase tracking-[0.3em] text-stone font-bold">Message</label>
-                      <textarea
-                        name="message"
-                        className="w-full bg-white/30 border border-stone/10 p-6 text-charcoal outline-none focus:border-amber transition-colors h-40 resize-none rounded-2xl placeholder:text-stone/30"
-                        placeholder="Tell us about a product or inquiry..."
-                        required
-                      />
-                    </div>
-
-                    {error && (
-                      <p className="text-xs text-red-500 italic px-2">{error}</p>
-                    )}
-
-                    <button
-                      type="submit"
+          <div className="surface-panel p-6 sm:p-8 lg:p-10">
+            {submitted ? (
+              <div className="grid gap-4 py-6">
+                <p className="section-label">Enquiry sent</p>
+                <h2 className="font-serif text-4xl text-ink sm:text-5xl">
+                  Thanks. Your message is on its way.
+                </h2>
+                <p className="max-w-2xl text-base leading-8 text-muted">
+                  If anything interrupts delivery, you can always email {siteContent.email}
+                  directly.
+                </p>
+                <button
+                  type="button"
+                  className="button-primary w-fit"
+                  onClick={() => {
+                    setSubmitted(false);
+                    setStatus("");
+                    setError("");
+                  }}
+                >
+                  Send another enquiry
+                </button>
+              </div>
+            ) : (
+              <form ref={form} className="grid gap-6" onSubmit={handleSubmit}>
+                <div className="grid gap-6 sm:grid-cols-2">
+                  <label className="grid gap-2 text-sm font-semibold text-ink" htmlFor="user_name">
+                    Name
+                    <input
+                      id="user_name"
+                      name="user_name"
+                      type="text"
+                      required
                       disabled={isSending}
-                      className="group relative w-full px-10 py-5 bg-charcoal text-offWhite text-[10px] font-bold uppercase tracking-[0.3em] rounded-full overflow-hidden transition-all duration-500 hover:shadow-xl active:scale-95 interactive flex items-center justify-center gap-3 disabled:opacity-50"
-                    >
-                      <span className="absolute inset-0 bg-amber translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
-                      <span className="relative z-10 group-hover:text-charcoal transition-colors duration-500 flex items-center gap-3">
-                        {isSending ? <Loader2 size={16} className="animate-spin" /> : "Transmit Message"}
-                        <ArrowRight size={14} />
-                      </span>
-                    </button>
-                  </form>
-                )}
-              </AnimatePresence>
-            </motion.div>
+                      className="field-input"
+                      placeholder="Your name"
+                    />
+                  </label>
+
+                  <label className="grid gap-2 text-sm font-semibold text-ink" htmlFor="user_email">
+                    Email
+                    <input
+                      id="user_email"
+                      name="user_email"
+                      type="email"
+                      required
+                      disabled={isSending}
+                      className="field-input"
+                      placeholder="you@example.com"
+                    />
+                  </label>
+                </div>
+
+                <label className="grid gap-2 text-sm font-semibold text-ink" htmlFor="message">
+                  Message
+                  <textarea
+                    id="message"
+                    name="message"
+                    required
+                    disabled={isSending}
+                    className="field-input"
+                    placeholder="Tell us what you are looking for, what you want us to source, or how you want to stay in touch."
+                  />
+                </label>
+
+                <div aria-live="polite" className="min-h-6 text-sm">
+                  {status && <p className="text-muted">{status}</p>}
+                  {error && <p className="text-red-700">{error}</p>}
+                </div>
+
+                <button type="submit" disabled={isSending} className="button-primary w-full sm:w-fit">
+                  {isSending ? "Sending..." : "Send enquiry"}
+                </button>
+              </form>
+            )}
           </div>
         </div>
-      </div>
+      </section>
     </main>
   );
 }
