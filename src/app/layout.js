@@ -50,6 +50,9 @@ export const metadata = {
     description:
       "A UK-based curated storefront focused on useful products across daily life.",
   },
+  verification: {
+    google: "uuQ7pqSCrq3k840V0YnHScsJFDYm5b_F9xGRAgUw2hc",
+  },
   robots: {
     index: true,
     follow: true,

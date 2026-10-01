@@ -1,0 +1,18 @@
+# Little Upgrades
+
+> Little Upgrades is a UK-based curated storefront sourcing useful products for everyday life across kitchen, toys, pets, skincare, travel, workspace, and home.
+
+Website: https://littleupgrades.co.uk
+Contact: info@littleupgrades.co.uk
+Locale: en-GB
+
+## Pages
+
+- [Home](https://littleupgrades.co.uk/): Brand overview and category scope
+- [Shop](https://littleupgrades.co.uk/shop): Collection direction and product categories
+- [About](https://littleupgrades.co.uk/about): Brand positioning and sourcing approach
+- [Contact](https://littleupgrades.co.uk/contact): Enquiry form for customers and partners
+
+## Optional
+
+- [Sitemap](https://littleupgrades.co.uk/sitemap.xml)
